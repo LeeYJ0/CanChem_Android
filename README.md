@@ -1,1 +1,1 @@
-# CanChem_Android_연제
+# CanChem_Android
