@@ -1,6 +1,7 @@
 package com.example.canchem
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,18 +15,33 @@ import android.text.InputFilter
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.os.Build
 
 class SearchActivity : AppCompatActivity() {
 
-    //카메라 앱으로 사진을 촬영하기 위한 요청 코드 (카메라 앱 종료 후 결과를 식별하는데 사용)
+    //카메라 앱으로 사진을 촬영하기 위한 요청 코드 (결과를 식별하는데 사용)
     companion object{
         const val REQUEST_IMAGE_CAPTURE = 1
+        const val REQUEST_CAMERA_PERMISSION = 2
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Android 10 이상일 때는 10 이상의 퍼미션을 요청
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            requestCameraPermissionAndroidQAndAbove()
+        }
+        // Android 13 이상일 때는 13 이상의 퍼미션을 요청
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestCameraPermissionAndroidMAndAbove()
+        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -92,6 +108,20 @@ class SearchActivity : AppCompatActivity() {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             // 여기서 촬영한 이미지를 처리하거나 표시할 수 있음.
             Toast.makeText(this, "사진을 찍었습니다!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 안드로이드 10 이상에서 카메라 퍼미션을 요청
+    private fun requestCameraPermissionAndroidQAndAbove() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
+        }
+    }
+
+    // 안드로이드 13 이상에서 카메라 퍼미션을 요청
+    private fun requestCameraPermissionAndroidMAndAbove() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
         }
     }
 }
