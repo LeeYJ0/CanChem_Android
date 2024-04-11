@@ -69,17 +69,17 @@
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 2" />
                 <TextView
-                    android:id="@+id/molecular_fomula"
+                    android:id="@+id/molecularFomula"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 3" />
                 <TextView
-                    android:id="@+id/molecular_weight"
+                    android:id="@+id/molecularWeight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 4" />
                 <TextView
-                    android:id="@+id/isomeric_smlies"
+                    android:id="@+id/isomericSmlies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 5" />
@@ -89,25 +89,15 @@
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 6" />
                 <TextView
-                    android:id="@+id/inchikey"
+                    android:id="@+id/inchiKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 7" />
                 <TextView
-                    android:id="@+id/canonical_smlies"
+                    android:id="@+id/canonicalSmlies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="텍스트뷰 8" />
-                <TextView
-                    android:id="@+id/temp1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="텍스트뷰 9" />
-                <TextView
-                    android:id="@+id/temp2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="텍스트뷰 10" />
 
             </LinearLayout>
 

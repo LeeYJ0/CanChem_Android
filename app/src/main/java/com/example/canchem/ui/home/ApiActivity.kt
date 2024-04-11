@@ -78,11 +78,16 @@ class ApiActivity : AppCompatActivity() {
 
                     // 분자 정보를 화면에 표시
                     compound?.let {
-                        binding.inpacName.text = it.inpacName
                         binding.cid.text = it.cid.toString()
-                        binding.inchi.text = it.inchi
-//                        Log.d("CID_Value", "CID value: ${it.cid}")
                         binding.inpacName.text = it.inpacName
+                        binding.molecularFomula.text = it.molecularFormula
+                        binding.molecularWeight.text = it.molecularWeight
+                        binding.isomericSmlies.text = it.isomericSmlies
+                        binding.inchi.text = it.inchi
+                        binding.inchiKey.text = it.inchiKey
+                        binding.canonicalSmlies.text = it.canonicalSmlies
+//                        Log.d("CID_Value", "CID value: ${it.cid}")
+
                     }
                 } else {
                     // API 호출이 실패한 경우

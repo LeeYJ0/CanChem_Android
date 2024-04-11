@@ -1,7 +1,9 @@
 package com.example.canchem
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,9 +12,15 @@ import com.example.canchem.databinding.ActivitySearchBinding
 import androidx.appcompat.widget.SearchView
 import android.text.InputFilter
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 
 class SearchActivity : AppCompatActivity() {
+
+    //카메라 앱으로 사진을 촬영하기 위한 요청 코드 (카메라 앱 종료 후 결과를 식별하는데 사용)
+    companion object{
+        const val REQUEST_IMAGE_CAPTURE = 1
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -65,5 +73,25 @@ class SearchActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        //카메라 버튼 클릭시 카메라 앱 시행
+        val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
+        cameraButton.setOnClickListener {
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureIntent.resolveActivity(packageManager) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            } else {
+                Toast.makeText(this, "카메라 앱을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    //카메라 앱이 종료되고 다시 검색 액티비티로 돌아왔을 때 호출
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            // 여기서 촬영한 이미지를 처리하거나 표시할 수 있음.
+            Toast.makeText(this, "사진을 찍었습니다!", Toast.LENGTH_SHORT).show()
+        }
     }
 }

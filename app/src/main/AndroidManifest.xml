@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.canchem">
 
+<!--    카메라 권한 얻기-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 <!--    서버 통신을 위한 인터넷 권한 얻기-->
     <uses-permission android:name="android.permission.INTERNET"/>
 
