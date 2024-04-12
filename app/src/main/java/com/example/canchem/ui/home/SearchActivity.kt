@@ -124,7 +124,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    // 카메라 퍼미션을 요청하는 함수
+    // 카메라 퍼미션을 요청하는 함수 
     private fun requestCameraPermission(intent: Intent) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
