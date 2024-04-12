@@ -3,14 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.canchem">
 
-<!--    카메라 권한 얻기-->
+    <!--    카메라 권한 추가 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-<!--    서버 통신을 위한 인터넷 권한 얻기-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--    갤러리 권한 추가 -->
+    <!--    10~13 버전 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--    13~ 버전-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+
+    <!--  인터넷 권한 추가  -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
     <application
