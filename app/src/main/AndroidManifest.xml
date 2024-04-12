@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--    13~ 버전-->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    
+
     <!--  인터넷 권한 추가  -->
     <uses-permission android:name="android.permission.INTERNET" />
 
