@@ -90,6 +90,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation("com.airbnb.android:lottie:3.1.0")
 
+    //사진 크롭을 위한 라이브러리 추가
+    implementation ("com.soundcloud.android:android-crop:1.0.1@aar")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
