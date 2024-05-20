@@ -22,9 +22,11 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.Settings
 import com.soundcloud.android.crop.Crop
 import java.io.ByteArrayOutputStream
 import android.util.Base64
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.IOException
@@ -34,14 +36,14 @@ import java.util.Date
 
 class SearchActivity : AppCompatActivity() {
     companion object{
-        //카메라 앱으로 사진을 촬영하기 위한 요청 코드
+        //카메라 앱을 사진 찍기 위한 요청 코드
         const val REQUEST_IMAGE_CAPTURE = 1
-        //카메라 앱으로 사진을 촬영한 후의 요청 코드 (결과를 식별하는데 사용)
+        //카메라 앱의 권한을 위한 요청 코드
         const val REQUEST_CAMERA_PERMISSION = 2
-        //갤러리 앱에서 사진을 선택하기 위한 요청 코드
-        const val REQUEST_GALLERY_PERMISSION =3
-        // 갤러리 앱에서 이미지를 선택한 후의 요청 코드 (결과를 식별하는데 사용)
-        const val REQUEST_IMAGE_PICK = 4
+        // 갤러리 앱에서 이미지를 선택하기 위한 요청 코드
+        const val REQUEST_IMAGE_PICK = 3
+        //갤러리 앱의 권한을 위한 요청 코드
+        const val REQUEST_GALLERY_PERMISSION =4
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +115,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
     }
-    // 실행한 후 액티비티로 돌아왔을 때
+    // 카메라, 갤러리, 크롭 등의 기능을 수행 했을 때
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -148,6 +150,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
+
     // 입력 필터링 적용 함수
     fun setInputFilter(editText: EditText) {
         val allowedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=()-#.$:/\\"
@@ -190,11 +193,11 @@ class SearchActivity : AppCompatActivity() {
                     imageUri = providerURI
 
                     // 파일 URI가 올바르게 설정되었는지 토스트 메시지로 확인
-                    if (providerURI != null) {
-                        Toast.makeText(this, "File URI: $providerURI", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "Failed to get file URI", Toast.LENGTH_SHORT).show()
-                    }
+//                    if (providerURI != null) {
+//                        Toast.makeText(this, "File URI: $providerURI", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(this, "Failed to get file URI", Toast.LENGTH_SHORT).show()
+//                    }
 
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -276,12 +279,14 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
     // 이미지를 Crop 화면으로 보내주는 함수
     private fun cropImage(photoUri: Uri) {
         // 임시 파일로 저장할 파일 객체 생성
         val savingUri = Uri.fromFile(createTempFile("cropImage", ".jpg"))
-        Crop.of(photoUri, savingUri).withAspect(1, 1).start(this)
+        //Crop.of(photoUri, savingUri).withAspect(1, 1).start(this) 1대1 비율로 크롭
+        //크롭 수정 사용자 지정
+        Crop.of(photoUri, savingUri).start(this)
+
     }
 
     // Bitmap을 Base64로 변환하는 함수
@@ -295,7 +300,56 @@ class SearchActivity : AppCompatActivity() {
         return ""
     }
 
+    // 퍼미션 요청 결과 처리
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            REQUEST_CAMERA_PERMISSION ->{
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "카메라 권한을 허용하였습니다.", Toast.LENGTH_SHORT).show()
 
+                }
+                //권한을 거절했을 경우
+                else{
+                    // 권한 설정을 위한 다이얼로그
+                    goSettingActivityAlertDialog()
+                }
+            }
+            REQUEST_GALLERY_PERMISSION ->{
+                //13이전버전
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "갤러리 권한을 허용하였습니다.", Toast.LENGTH_SHORT).show()
+                }
+                //13버전
+                else if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "갤러리 권한을 허용하였습니다.", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    goSettingActivityAlertDialog()
+                }
+            }
+        }
+    }
+
+    //설정 -> 권한으로 이동하는 다이얼로그
+    private fun goSettingActivityAlertDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("허용 되지 않은 권한이 있습니다.")
+            .setMessage("일부 기능이 제한 될 수 있습니다.\n설정에서 권한을 허용해주세요.\n권한 -> 저장공간 -> 허용")
+            .setPositiveButton("허용하러 가기") { _, _ ->
+                val goSettingPermission = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                goSettingPermission.data = Uri.parse("package:$packageName")
+                startActivity(goSettingPermission)
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
+    }
 //        //사진 선택 확인 다이얼로그 표시 함수
 //        private fun showConfirmationDialog(photoUri: Uri) {
 //            val alertDialogBuilder = AlertDialog.Builder(this)
