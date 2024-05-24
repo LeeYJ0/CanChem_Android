@@ -50,15 +50,29 @@ android {
 }
 
 dependencies {
+    implementation("androidx.credentials:credentials:1.3.0-alpha03")
+//    implementation ("androidx.credentials:credentials:<latest version>")
+//    implementation ("androidx.credentials:credentials-play-services-auth:21.0.0")
+//    implementation ("com.google.android.libraries.identity.googleid:googleid:<latest version>")
+    //firebase auth
+    implementation ("com.google.firebase:firebase-auth:21.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    //recyclerview
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
 
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0") // 문자열 응답을 처리하기 위한 의존성
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0")
+
 
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation ("com.google.firebase:firebase-database-ktx:20.0.0")
+    implementation ("com.google.firebase:firebase-database-ktx:21.0.0")
 
     //okhttps3
     implementation (platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
@@ -70,7 +84,8 @@ dependencies {
 
     /* Google OAuth2.0 API */
     implementation ("com.google.gms:google-services:4.3.15")
-    implementation ("com.google.android.gms:play-services-auth:20.4.1")
+    implementation ("com.google.android.gms:play-services-auth:20.5.0")
+    implementation ("com.google.android.gms:play-services-location:21.2.0")
 
     /* 네이버 아이디 로그인 API 서비스*/
     implementation(files("libs/oauth-5.9.0.aar"))  // 네아로 SDK
@@ -90,12 +105,24 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation("com.airbnb.android:lottie:3.1.0")
 
+    //사진 크롭을 위한 라이브러리 추가
+    implementation ("com.soundcloud.android:android-crop:1.0.1@aar")
+
+    //Picasso 라이브러리 추가
+    implementation("com.squareup.picasso:picasso:2.71828")
+
+    // kotlin serialization
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0") // JVM dependency
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.database)
+    implementation(libs.compose.preview.renderer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

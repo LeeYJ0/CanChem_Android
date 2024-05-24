@@ -1,4 +1,4 @@
-package com.example.canchem
+package com.example.canchem.ui.molecularInfo
 
 import android.os.Bundle
 import android.widget.Toast
@@ -12,8 +12,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Query
 import android.util.Log
+import com.example.canchem.data.source.mol_Name
 
 class ApiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityApiBinding

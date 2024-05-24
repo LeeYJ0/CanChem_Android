@@ -1,4 +1,4 @@
-package com.example.canchem.data.source
+package com.example.canchem.data.source.dataclass
 
 import com.google.gson.annotations.SerializedName
 import retrofit2.http.Body

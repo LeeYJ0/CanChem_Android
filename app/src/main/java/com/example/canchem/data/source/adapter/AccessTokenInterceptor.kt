@@ -1,4 +1,4 @@
-package com.example.canchem.data.source
+package com.example.canchem.data.source.adapter
 
 import okhttp3.Interceptor
 import okhttp3.Response

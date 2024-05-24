@@ -5,5 +5,7 @@
     <string name="naver_client_secret">Urenmf1NTB</string>
     <string name="naver_client_name">CanChem</string>
 
-    <string name="google_client_id">797693094849-njha96tss06ssgs6adi5o68gc718s0s8.apps.googleusercontent.com</string>
+    <string name="google_client_id">611236167774-9oe5nsr35ss68ngisi2cnc9ma22vamou.apps.googleusercontent.com</string>
+    <string name="web_client_id">611236167774-hudjgumg6o4hhqnkeiab1jjafa4hmbqj.apps.googleusercontent.com</string>
+    <string name="default_web_client_id" translatable="false">81431471745-2u2v2hdptk9b743h8fll2gntpoc72eog.apps.googleusercontent.com</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.canchem
+package com.example.canchem.data.source
 
 import com.google.gson.annotations.SerializedName
 
